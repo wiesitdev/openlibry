@@ -11,11 +11,21 @@ const nextConfig = {
   },
   images: {
     minimumCacheTTL: 5,
-
+    
+    // Restrict to trusted domains for security
     remotePatterns: [
       {
+        protocol: "https",
+        hostname: "covers.openlibrary.org",
+      },
+      {
+        protocol: "https", 
+        hostname: "openlibrary.org",
+      },
+      // Allow localhost for development
+      {
         protocol: "http",
-        hostname: "**",
+        hostname: "localhost",
       },
     ],
   },
