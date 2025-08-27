@@ -1,0 +1,25 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install security updates
+RUN apk update && apk upgrade && apk add --no-cache openssl
+
+# Fix SSL library link  
+RUN ln -s /usr/lib/libssl.so.3 /lib/libssl.so.3
+
+# Copy everything
+COPY . .
+
+# Install dependencies
+RUN npm install
+
+# Generate Prisma client
+RUN npx prisma generate
+
+# Build application
+RUN npm run build
+
+EXPOSE 3000
+
+ENTRYPOINT ["npm", "run", "start"]
